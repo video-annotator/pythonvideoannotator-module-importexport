@@ -13,7 +13,6 @@ from pyforms.Controls 	 import ControlCheckBoxList
 from pyforms.Controls 	 import ControlEmptyWidget
 from pyforms.Controls 	 import ControlProgress
 from pyforms.Controls 	 import ControlTree
-from PyQt4 import QtGui
 
 
 class ExportWindow(BaseWidget):
@@ -21,7 +20,11 @@ class ExportWindow(BaseWidget):
 	def __init__(self, parent=None):
 		BaseWidget.__init__(self, 'Export data', parent_win=parent)
 
-		self.layout().setContentsMargins(10, 5, 10, 5)
+		if conf.PYFORMS_USE_QT5:
+			self.layout().setContentsMargins(5,5,5,5)
+		else:
+			self.layout().setMargin(5)
+			
 		self.setMinimumHeight(600)
 		self.setMinimumWidth(800)
 
@@ -108,14 +111,14 @@ class ExportWindow(BaseWidget):
 			with open(filename, 'w') as out:
 				out.write('frame;')
 				for values in self._export_list.value:
-					out.write('{0};'.format(values[0]))
+					out.write(('{0};'.format(values[0])) )
 				out.write('\n')
 
 				for index in range(total_2_analyse):
 					out.write('{0};'.format(index))
 					for _, func in self._properties:
-						out.write('{0};'.format(func(index)))
-					out.write('\n')
+						out.write( '{0};'.format(func(index)))
+					out.write( '\n')
 					self._progress.value = index
 						
 			
