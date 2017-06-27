@@ -1,13 +1,11 @@
 import cv2
+import pyforms #make sure the variable PYFORMS_USE_QT5 us loaded
 from pysettings import conf
 
 if conf.PYFORMS_USE_QT5:
 	from PyQt5.QtWidgets import QFileDialog
-	from PyQt5 import uic
-
 else:
 	from PyQt4.QtGui import QFileDialog
-	from PyQt4 import uic
 
 class ImportExportImage(object):
 
