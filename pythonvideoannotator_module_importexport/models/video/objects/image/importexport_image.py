@@ -1,9 +1,9 @@
-import cv2, pyforms, AnyQt
+import cv2, pyforms
 from pysettings import conf
 
 if conf.PYFORMS_MODE=='GUI':
 	from AnyQt.QtWidgets import QFileDialog
-
+	from AnyQt import _api
 class ImportExportImage(object):
 
 
@@ -23,6 +23,6 @@ class ImportExportImage(object):
 
 	def __import_image_window(self):
 		value = QFileDialog.getOpenFileName(self, 'Select an image')
-		value = value[0] if conf.PYFORMS_USE_QT5 else str(value)
+		value = value[0] if _api.USED_API == _api.QT_API_PYQT5 else str(value)
 		
 		self.image = cv2.imread(value)
