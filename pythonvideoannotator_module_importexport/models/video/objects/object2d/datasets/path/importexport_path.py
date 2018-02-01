@@ -23,9 +23,14 @@ class ImportExportPath(object):
 		self._value_import_window.show()
 
 	def __import_data_event(self):
-		for frame, x, y in self._value_import_window:
-			frame = int(frame)
-			x = None if x=='None' or x.strip()=='' else float(x)
-			y = None if y=='None' or y.strip()=='' else float(y)
-			self.set_position(frame, x, y)
+
+		try:
+			for frame, x, y in self._value_import_window:
+				frame = int(frame)
+				x = None if x=='None' or x.strip()=='' else float(x)
+				y = None if y=='None' or y.strip()=='' else float(y)
+				self.set_position(frame, x, y)
+		except Exception as e:
+			self.message(str(e))
+                        
 		self._value_import_window.hide()
