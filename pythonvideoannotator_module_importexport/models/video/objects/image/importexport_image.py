@@ -1,5 +1,5 @@
 import cv2, pyforms
-from pysettings import conf
+from pyforms import conf
 
 if conf.PYFORMS_MODE=='GUI':
 	from AnyQt.QtWidgets import QFileDialog
