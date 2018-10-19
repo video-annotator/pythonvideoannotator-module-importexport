@@ -1,5 +1,5 @@
-from pyforms import conf
-from pyforms.gui.dialogs.generic_csv_parser import GenericCsvParserDialog
+from confapp import conf
+from pyforms_gui.dialogs.generic_csv_parser import GenericCsvParserDialog
 
 class ImportExportValue(object):
 
