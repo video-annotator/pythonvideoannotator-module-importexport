@@ -14,6 +14,10 @@ from pyforms.controls 	 import ControlEmptyWidget
 from pyforms.controls 	 import ControlProgress
 from pyforms.controls 	 import ControlTree
 
+if conf.PYFORMS_MODE=='GUI':
+    from AnyQt import QtCore
+    from AnyQt.QtWidgets import QMessageBox
+
 from pythonvideoannotator_models.models.video.objects.object2d.datasets.value import Value
 
 class ExportWindow(BaseWidget):
@@ -98,6 +102,10 @@ class ExportWindow(BaseWidget):
 	def __add_column_event(self):
 		self.__update_outfile_name_event()
 		item = self._tree.selected_item
+
+		if item is None:
+			return
+
 		if hasattr(item, 'data_function'):
 			self._export_list += [ self.__field_full_name(item) ]
 			self._properties.append( (len(item.win), item.data_function) )
@@ -107,7 +115,9 @@ class ExportWindow(BaseWidget):
 
 	def __remove_column_event(self):
 		self.__update_outfile_name_event()
-		if self._export_list.selected_row_index>=0:
+		if self._export_list.selected_row_index is None:
+			return
+		elif self._export_list.selected_row_index>=0:
 			self._properties.pop(self._export_list.selected_row_index)
 			self._export_list -= -1
 		
@@ -133,9 +143,21 @@ class ExportWindow(BaseWidget):
 
 		if self._apply.checked:
 
-			if self._outfile.value is None or len(self._outfile.value.strip())==0: 
+			if len(self._properties)==0:
+				QMessageBox.about(self, "Error", "You need to select at least one value to export.")
 				self._apply.checked = False
 				return
+
+			if self._outfile.value is None or len(self._outfile.value.strip())==0: 
+				QMessageBox.about(self, "Error", "You need to select the name of the output file.")
+				self._apply.checked = False
+				return
+
+			if self._outdir.value is None or len(self._outdir.value)==0: 
+				QMessageBox.about(self, "Error", "You need to select the name of the output directory.")
+				self._apply.checked = False
+				return
+
 
 			self.__update_outfile_name_event()
 
